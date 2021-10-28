@@ -1,52 +1,34 @@
 <html>
-  <head>
-    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-    <title>This is my example homepage.</title>
-  </head>
-  <body>
-    <p>This is some text.</p>
-    <p>This is some more text.</p>
-    <div id="myviz"></div>
-  </body>
-  <script>
-    mySpec = {
-      $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-      data: { url: "building_inventory.csv" },
-      mark: "bar",
-      transform: [
-        {
-          filter: [
-            { field: "Congress Dist", valid: true },
-            { field: "Square Footage", valid: true },
-            { field: "Congressional Full Name", valid: true }
-          ]
-        },
-        {
-          aggregate: [
-            {
-              op: "sum",
-              field: "Congress Dist",
-              as: "Total Congress Dist"
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+        <title>Shuzhan Wang's Assignment3</title>
+    </head>
+    <body>
+        <p>
+            This visualization is to explore the trend of people's preference for number of floors over time.
+        </p>
+        <div id="myviz">
+        </div>
+    </body>
+    <script>
+        mySpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            "data": {
+                "url": "building_inventory.csv"
             },
-            {
-              groupby: ["Congressional Full Name"]
+            "width": 400,
+            "height": 400,
+            "mark": "line",
+            "transform": [
+                {"filter": {"field": "Year Constructed", "range": [1960, 2010]}}
+                ],
+            "encoding": {
+                "x": {"field": "Year Constructed"},
+                "y": {"aggregate": "mean", "field": "Total Floors"}
             }
-          ]
-        }
-      ],
-      encoding: {
-        x: {
-          field: "Congressional Full Name",
-          type: "nominal"
-        },
-        y: {
-          filed: "Total Congress Dist",
-          type: "quantitative"
-        }
-      }
-    };
-    vegaEmbed("#myviz", mySpec);
-  </script>
+        };
+        vegaEmbed('#myviz', mySpec);
+    </script>
 </html>
